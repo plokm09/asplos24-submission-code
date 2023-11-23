@@ -499,7 +499,7 @@ class NodeScheduler(Protocol):
             self._comp.send_cpu_scheduler_message(Message(-1, -1, "New Task"))
         if new_qpu_tasks:
             self._qpu_scheduler.add_tasks(new_qpu_tasks)
-            self._task_logger.debug(f"sending 'New Task' msg to QPU scheduler")
+            self._task_logger.debug("sending 'New Task' msg to QPU scheduler")
             self._comp.send_qpu_scheduler_message(Message(-1, -1, "New Task"))
 
     def schedule_all(self) -> None:
@@ -544,7 +544,7 @@ class NodeScheduler(Protocol):
             self._comp.send_cpu_scheduler_message(Message(-1, -1, "New Task"))
         if len(all_new_qpu_tasks) > 0:
             self._qpu_scheduler.add_tasks(all_new_qpu_tasks)
-            self._task_logger.debug(f"sending 'New Task' msg to QPU scheduler")
+            self._task_logger.debug("sending 'New Task' msg to QPU scheduler")
             self._comp.send_qpu_scheduler_message(Message(-1, -1, "New Task"))
 
     def find_next_tasks_for(
@@ -1221,7 +1221,7 @@ class QpuScheduler(ProcessorScheduler):
 
             # Get virt IDs which would be need to be allocated
             if routine.request.virt_ids.typ == VirtIdMappingType.EQUAL:
-                virt_id = routine.request.virt_ids.single_value
+                virt_id = routine.request.virt_ids.single_value  # type: ignore
                 assert virt_id is not None and isinstance(virt_id, int)
                 virt_ids = [virt_id]
             else:
@@ -1240,13 +1240,13 @@ class QpuScheduler(ProcessorScheduler):
                 # Free all temporarily allocated qubits again
                 for virt_id in temp_allocated:
                     self._memmgr.free(task.pid, virt_id, send_signal=False)
-                self._task_logger.debug(f"all virt IDs available")
+                self._task_logger.debug("all virt IDs available")
                 return True
             except AllocError:
                 # Make sure all qubits that did successfully allocate are freed
                 for virt_id in temp_allocated:
                     self._memmgr.free(task.pid, virt_id, send_signal=False)
-                self._task_logger.debug(f"some virt IDs unavailable")
+                self._task_logger.debug("some virt IDs unavailable")
                 return False
         elif isinstance(task, LocalRoutineTask):
             drv_mem = self._driver._memory
@@ -1262,20 +1262,20 @@ class QpuScheduler(ProcessorScheduler):
                     if self._memmgr.phys_id_for(task.pid, vid) is None
                 ]
                 # try to allocate them
-                temp_allocated: List[int] = []
+                temp_allocated: List[int] = []  # type: ignore
                 for virt_id in new_ids:
                     self._memmgr.allocate(task.pid, virt_id)
                     temp_allocated.append(virt_id)  # successful alloc
                 # Free all temporarily allocated qubits again
                 for virt_id in temp_allocated:
                     self._memmgr.free(task.pid, virt_id, send_signal=False)
-                self._task_logger.debug(f"all virt IDs available")
+                self._task_logger.debug("all virt IDs available")
                 return True
             except AllocError:
                 # Make sure all qubits that did successfully allocate are freed
                 for virt_id in temp_allocated:
                     self._memmgr.free(task.pid, virt_id, send_signal=False)
-                self._task_logger.debug(f"some virt IDs unavailable")
+                self._task_logger.debug("some virt IDs unavailable")
                 return False
         else:
             self._logger.info(

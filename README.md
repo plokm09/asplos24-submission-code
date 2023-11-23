@@ -33,18 +33,20 @@ The username and password for this account are also needed to install this packa
 
 This will prompt for your NetSquid account name and password.
 
+NetSquid works well with Linux, and with most macOS versions. It does not work with Windows (WSL does work).
+
 ### From source
 Clone this repository and make an editable install with
 
 ```
-pip install -e . --extra-index-url=https://pypi.netsquid.org
+pip install -e . --extra-index-url=https://{username}:{password}@pypi.netsquid.org
 ```
-which will prompt for your NetSquid account name and password.
+where `{username}` should be replaced by your NetSquid username, and `{password}` by your NetSquid password.
 
-Additionally, you may want to install the extra `dev` packackes, so you can run the tests and linter:
+Additionally, you may want to install the extra `dev` packages, so you can run the tests and linter:
 
 ```
-pip install -e .[dev] --extra-index-url=https://pypi.netsquid.org
+pip install -e .[dev] --extra-index-url=https://{username}:{password}@pypi.netsquid.org
 ```
 
 You can also use the `make install` and `make install-dev` Makefile commands.

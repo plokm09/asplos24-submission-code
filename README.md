@@ -1,4 +1,9 @@
 # Qoala Simulator
+**Implementation accompanying the paper entitled "Qoala: an Application Execution Environment for Quantum Internet Nodes".
+The code and data used for the Evaluation section in the paper is in the `evaluation` folder of this repository.
+In that folder there are also `README`s describing how to use the scripts.**
+
+
 A comprehensive and configurable software library for simulating quantum network applications and nodes. It allows users to mimic both the software and hardware of real quantum network nodes, execute quantum programs, and gather statistics. This flexibility enables users to test and optimize various hardware parameters, investigate their effects on application performance and overall network performance, and even prototype new quantum network node architectures.
 
 
@@ -34,7 +39,7 @@ Clone this repository and make an editable install with
 ```
 pip install -e . --extra-index-url=https://pypi.netsquid.org
 ```
-which will prompts for your NetSquid account name and password.
+which will prompt for your NetSquid account name and password.
 
 Additionally, you may want to install the extra `dev` packackes, so you can run the tests and linter:
 
